@@ -87,7 +87,7 @@ public class Transfer5 {
 		String hdfsSrc = "/Input";
 		String hdfsDst = "/Output";
 		Transfer5 t5 = new Transfer5();
-		//t5.getInputData(hdfs, localFilePath, inputPath);
+		t5.getInputData(hdfs, localFilePath, inputPath);
 		long startTime = System.currentTimeMillis();
 		t5.transferDir(hdfs, hdfsSrc, hdfsDst);
 		long endTime = System.currentTimeMillis();
