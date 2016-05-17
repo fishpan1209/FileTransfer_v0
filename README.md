@@ -1,2 +1,1 @@
-# FileTransfer_v0
-benchmark statistics
+# FileTransfer_benchmark
