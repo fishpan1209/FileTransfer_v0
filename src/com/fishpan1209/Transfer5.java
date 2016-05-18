@@ -1,6 +1,7 @@
 package com.fishpan1209;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -23,8 +24,6 @@ public class Transfer5 {
 	
 	public void getInputData(FileSystem hdfs, String localSrcPath, String inputPath) throws IOException{
 		
-		
-
 		// Print the home directory
 		System.out.println("Home folder -" + hdfs.getHomeDirectory());
 
@@ -57,11 +56,13 @@ public class Transfer5 {
 		
 	}
 	
-	public void transferDir(FileSystem hdfs, String hdfsSrc, String hdfsDst) throws Exception{
+	public void transfer(FileSystem hdfs, String hdfsSrc, String hdfsDst) throws Exception{
 		System.out.println("Copying directory from "+hdfsSrc+" to "+hdfsDst);
 		Path workingDir = hdfs.getWorkingDirectory();
 		Path destPath = new Path(hdfsDst);
 		destPath = Path.mergePaths(workingDir, destPath);
+		Path srcPath = new Path(hdfsSrc);
+		srcPath = Path.mergePaths(workingDir, srcPath);
 		
 		// if Output path doesn't exist, create it
 		if(!hdfs.exists(destPath)){
@@ -69,27 +70,58 @@ public class Transfer5 {
 			System.out.println("Folder created at: "+destPath.toString());
 		}
 		
-		Configuration conf = hdfs.getConf();
-		DistCp distcp = new DistCp(conf, null);
-		ToolRunner.run(distcp, new String[]{hdfsSrc, hdfsDst});
-		
+		transferDir(srcPath, destPath,hdfs);
 	}
 	
-	public void sendFile(){
+	public void transferDir(Path srcDir, Path destDir, FileSystem hdfs) throws FileNotFoundException, IOException {
+		// start copying directory
+		if (!hdfs.exists(srcDir)) {
+			System.out.println("Directory " + srcDir.toString() + " does not exist.");
+			System.exit(0);
+		} else {
+			if (hdfs.isDirectory(srcDir)) {
+				// if destination directory not exists, create it
+				if (!hdfs.exists(destDir)) {
+					hdfs.mkdirs(destDir);
+					System.out.println("Directory "+destDir.toString()+" has been created");
+				}
+
+				// list all the directory contents
+				FileStatus[] fileStatus = hdfs.listStatus(srcDir);
+
+				for (FileStatus file : fileStatus) {
+					// construct the src and dest file structure
+					if (file.isDirectory()) {
+						transferDir(file.getPath(), destDir, hdfs);
+					} else {
+						// copyfile
+						LocalFileSystem localFS = hdfs.getLocal(hdfs.getConf());
+						File localFile = localFS.pathToFile(srcDir);
+						System.out.println("Sending file: "+localFile.getName());
+						ProcessFile processer = new ProcessFile(localFile.toPath());
+						String header = processer.getHeader();
+						sendFile(srcDir, destDir, header);
+					}
+				}
+			}
+		}
+	}
+	
+	public void sendFile(Path hdfsSrc, Path hdfsDst, String header){
 		
 	}
 
 	public static void main(String[] args) throws Exception {
 		FileSystem hdfs = FileSystem.get(new Configuration());
 		// TODO Auto-generated method stub
-		String localFilePath = "/users/aojing/dropbox/Liaison/Project/Data/corpus";
+		String localFilePath = "/users/aojing/dropbox/Liaison/Project/Data/test";
 		String inputPath = "/Input";
-		String hdfsSrc = "/Input";
+		String hdfsSrc = "/Input/test";
 		String hdfsDst = "/Output";
 		Transfer5 t5 = new Transfer5();
-		t5.getInputData(hdfs, localFilePath, inputPath);
+		//t5.getInputData(hdfs, localFilePath, inputPath);
 		long startTime = System.currentTimeMillis();
-		t5.transferDir(hdfs, hdfsSrc, hdfsDst);
+		t5.transfer(hdfs, hdfsSrc, hdfsDst);
 		long endTime = System.currentTimeMillis();
         System.out.println("Total Time is  " + (endTime - startTime)+"ms");
 
