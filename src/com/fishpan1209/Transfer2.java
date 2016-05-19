@@ -68,7 +68,7 @@ public class Transfer2 {
 
 	public void sendFile(File file, String header, File destDir){
 		try {
-			System.out.println("Sending file: " + file.getName());
+			//System.out.println("Sending file: " + file.getName());
 			// create directory for new file
 			
 			try {
@@ -86,7 +86,7 @@ public class Transfer2 {
 				}
 				in.close();
 				out.close();
-				System.out.println("End of file reached.." + "\n");
+				//System.out.println("End of file reached.." + "\n");
 
 			} catch (FileNotFoundException e) {
 				System.out.println("FILE NOT FOUND EXCEPTION");
@@ -97,7 +97,7 @@ public class Transfer2 {
 			e.getMessage();
 		}
 	}
-	
+/*	
 	public static void main(String[] args){
 		String srcPath = "/users/aojing/dropbox/Liaison/Project/Data/corpus/";
 		String destPath = "/users/aojing/dropbox/Liaison/Project/output2";
@@ -107,8 +107,8 @@ public class Transfer2 {
 		long startTime = System.currentTimeMillis();
 		t2.transferDir(srcDir, destDir);
 		long endTime = System.currentTimeMillis();
-        System.out.println("Total Time is  " + (endTime - startTime)+"ms");
+        System.out.println("Total Time of transfer2 is  " + (endTime - startTime)+"ms");
 	}
-
+*/
 }
 

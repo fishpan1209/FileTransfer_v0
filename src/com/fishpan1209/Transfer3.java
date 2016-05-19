@@ -46,7 +46,7 @@ public class Transfer3  {
 	    });
 	
 	}
-	
+/*	
 	public static void main(String[] args) throws IOException{
 		String srcPath = "/users/aojing/dropbox/Liaison/Project/Data/corpus/";
 		String destPath = "/users/aojing/dropbox/Liaison/Project/output3";
@@ -56,7 +56,8 @@ public class Transfer3  {
 		long startTime = System.currentTimeMillis();
 		t3.transferDir(srcDir, destDir);
 		long endTime = System.currentTimeMillis();
-        System.out.println("Total Time is  " + (endTime - startTime)+"ms");
+        System.out.println("Total Time of transfer3 is " + (endTime - startTime)+"ms");
 		
 	}
+	*/
 }

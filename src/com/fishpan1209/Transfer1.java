@@ -65,8 +65,8 @@ public class Transfer1 {
 
 	public void sendFile(File file, String header, File destDir){
 		try {
-			System.out.println("Sending file: " + file.getName());
-			System.out.println(destDir.getPath());
+			//System.out.println("Sending file: " + file.getName());
+			//System.out.println(destDir.getPath());
 			
 			try {
 				// input file
@@ -83,7 +83,7 @@ public class Transfer1 {
 				ByteBuffer buffer = ByteBuffer.allocate((int) fileSize);
 				
 				// write header first
-				System.out.println(header);
+				//System.out.println(header);
 				outFile.writeUTF(header);
 				
 				// write file body
@@ -98,7 +98,7 @@ public class Transfer1 {
 		
 				}
 				
-				System.out.println("End of file reached.."+"\n");
+				//System.out.println("End of file reached.."+"\n");
 				inFile.close();
 				outFile.close();
 
@@ -111,7 +111,7 @@ public class Transfer1 {
 			e.getMessage();
 		}
 	}
-	
+	/*
 	public static void main(String[] args){
 		String srcPath = "/users/aojing/dropbox/Liaison/Project/Data/corpus/";
 		String destPath = "/users/aojing/dropbox/Liaison/Project/output";
@@ -121,7 +121,8 @@ public class Transfer1 {
 		long startTime = System.currentTimeMillis();
 		t1.transferDir(srcDir, destDir);
 		long endTime = System.currentTimeMillis();
-        System.out.println("Total Time is  " + (endTime - startTime)+"ms");
+        System.out.println("Total Time of transfer1 is  " + (endTime - startTime)+"ms");
 	}
+	*/
 
 }

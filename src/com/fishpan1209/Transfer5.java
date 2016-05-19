@@ -3,6 +3,7 @@ package com.fishpan1209;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.hadoop.conf.Configuration;
@@ -100,15 +101,15 @@ public class Transfer5 {
 						System.out.println("Sending file: "+localFile.getName());
 						ProcessFile processer = new ProcessFile(localFile.toPath());
 						String header = processer.getHeader();
-						sendFile(srcDir, destDir, header);
+						sendFile(srcDir, destDir, header,hdfs);
 					}
 				}
 			}
 		}
 	}
 	
-	public void sendFile(Path hdfsSrc, Path hdfsDst, String header){
-		
+	public void sendFile(Path hdfsSrc, Path hdfsDst, String header,FileSystem hdfs) throws IOException{
+		FileUtil.copy(hdfs, hdfsSrc, new File(hdfsDst.toString()), false,hdfs.getConf());
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -123,7 +124,7 @@ public class Transfer5 {
 		long startTime = System.currentTimeMillis();
 		t5.transfer(hdfs, hdfsSrc, hdfsDst);
 		long endTime = System.currentTimeMillis();
-        System.out.println("Total Time is  " + (endTime - startTime)+"ms");
+        System.out.println("Total Time of Transfer5 is  " + (endTime - startTime)+"ms");
 
 	}
 

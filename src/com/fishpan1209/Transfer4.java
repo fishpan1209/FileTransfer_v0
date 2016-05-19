@@ -64,8 +64,8 @@ public class Transfer4  {
 	}
 	
 	public void sendFile(File srcDir, File destDir){
-		System.out.println("Sending file: " + srcDir.getName());
-		System.out.println(destDir.getPath());
+		//System.out.println("Sending file: " + srcDir.getName());
+		//System.out.println(destDir.getPath());
 		try {
 			RandomAccessFile fromFile;
 			fromFile = new RandomAccessFile(srcDir, "rw");
@@ -88,7 +88,7 @@ public class Transfer4  {
 		}
 		
 	}
-	
+/*	
 	public static void main(String[] args) throws IOException{
 		String srcPath = "/users/aojing/dropbox/Liaison/Project/Data/corpus";
 		String destPath = "/users/aojing/dropbox/Liaison/Project/output4";
@@ -98,7 +98,8 @@ public class Transfer4  {
 		long startTime = System.currentTimeMillis();
 		t4.transferDir(srcDir, destDir);
 		long endTime = System.currentTimeMillis();
-        System.out.println("Total Time is  " + (endTime - startTime)+"ms");
+        System.out.println("Total Time of transfer4 is  " + (endTime - startTime)+"ms");
 		
 	}
+	*/
 }
