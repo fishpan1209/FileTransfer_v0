@@ -19,6 +19,7 @@ Transfer5:
 directory creation: 
 header copying: 
 file copying:  file transfer within hdfs
+read/write with input/output stream
  */
 public class Transfer5 {
 	
@@ -85,22 +86,20 @@ public class Transfer5 {
 		} else {
 			if (hdfs.isDirectory(srcDir)) {
 				// if destination directory not exists, create it
-				System.out.println(srcDir.getName()+" is directory\n");
+				//System.out.println(srcDir.getName()+" is directory\n");
 				destDir = Path.mergePaths(destDir, new Path("/"+srcDir.getName()));
-				System.out.println(destDir);
 				if (!hdfs.exists(destDir)) {
 					hdfs.mkdirs(destDir);
-					System.out.println("Directory "+destDir.toString()+" has been created");
+					// System.out.println("Directory "+destDir.toString()+" has been created");
 				}
 
 				// list all the directory contents
 				FileStatus[] fileStatus = hdfs.listStatus(srcDir);
 
 				for (FileStatus file : fileStatus) {
-					System.out.println("Current folder/file: "+file.getPath().toString());
 					// construct the src and dest file structure
 					if (hdfs.isDirectory(file.getPath())) {
-						System.out.println(file.getPath().toString()+" is directory");
+						// System.out.println(file.getPath().toString()+" is directory");
 						transferDir(file.getPath(), destDir, hdfs);
 					} else if(hdfs.isFile(file.getPath())) {
 						// copyfile
@@ -111,7 +110,7 @@ public class Transfer5 {
 						ProcessFile processer = new ProcessFile(localFile.toPath());
 						String header = processer.getHeader();
 						*/
-						System.out.println(file.getPath().toString()+" is file");
+						// System.out.println(file.getPath().toString()+" is file");
 						sendFile(file.getPath(), destDir,hdfs);
 					}
 				}
@@ -140,7 +139,7 @@ public class Transfer5 {
 		// TODO Auto-generated method stub
 		String localFilePath = "/users/aojing/dropbox/Liaison/Project/Data/test";
 		String inputPath = "/Input";
-		String hdfsSrc = "/Input/corpus";
+		String hdfsSrc = "/Input/test";
 		String hdfsDst = "/Output";
 		Transfer5 t5 = new Transfer5();
 		//t5.getInputData(hdfs, localFilePath, inputPath);
