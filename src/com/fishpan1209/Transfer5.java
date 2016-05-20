@@ -3,11 +3,14 @@ package com.fishpan1209;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
+import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.hadoop.tools.DistCp; 
@@ -82,6 +85,9 @@ public class Transfer5 {
 		} else {
 			if (hdfs.isDirectory(srcDir)) {
 				// if destination directory not exists, create it
+				System.out.println(srcDir.getName()+" is directory\n");
+				destDir = Path.mergePaths(destDir, new Path("/"+srcDir.getName()));
+				System.out.println(destDir);
 				if (!hdfs.exists(destDir)) {
 					hdfs.mkdirs(destDir);
 					System.out.println("Directory "+destDir.toString()+" has been created");
@@ -91,25 +97,42 @@ public class Transfer5 {
 				FileStatus[] fileStatus = hdfs.listStatus(srcDir);
 
 				for (FileStatus file : fileStatus) {
+					System.out.println("Current folder/file: "+file.getPath().toString());
 					// construct the src and dest file structure
-					if (file.isDirectory()) {
+					if (hdfs.isDirectory(file.getPath())) {
+						System.out.println(file.getPath().toString()+" is directory");
 						transferDir(file.getPath(), destDir, hdfs);
-					} else {
+					} else if(hdfs.isFile(file.getPath())) {
 						// copyfile
+						/*
 						LocalFileSystem localFS = hdfs.getLocal(hdfs.getConf());
 						File localFile = localFS.pathToFile(srcDir);
 						System.out.println("Sending file: "+localFile.getName());
 						ProcessFile processer = new ProcessFile(localFile.toPath());
 						String header = processer.getHeader();
-						sendFile(srcDir, destDir, header,hdfs);
+						*/
+						System.out.println(file.getPath().toString()+" is file");
+						sendFile(file.getPath(), destDir,hdfs);
 					}
 				}
 			}
 		}
 	}
 	
-	public void sendFile(Path hdfsSrc, Path hdfsDst, String header,FileSystem hdfs) throws IOException{
-		FileUtil.copy(hdfs, hdfsSrc, new File(hdfsDst.toString()), false,hdfs.getConf());
+	public void sendFile(Path hdfsSrc, Path hdfsDst, FileSystem hdfs) throws IOException {
+		System.out.println("copy file content from "+hdfsSrc.toString()+" to "+hdfsDst.toString());
+		hdfsDst = Path.mergePaths(hdfsDst, new Path("/"+hdfsSrc.getName()));
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			in = hdfs.open(hdfsSrc);
+			out = hdfs.create(hdfsDst);
+			IOUtils.copyBytes(in, out, hdfs.getConf(), true);
+		} catch (IOException e) {
+			IOUtils.closeStream(out);
+			IOUtils.closeStream(in);
+			throw e;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -117,7 +140,7 @@ public class Transfer5 {
 		// TODO Auto-generated method stub
 		String localFilePath = "/users/aojing/dropbox/Liaison/Project/Data/test";
 		String inputPath = "/Input";
-		String hdfsSrc = "/Input/test";
+		String hdfsSrc = "/Input/corpus";
 		String hdfsDst = "/Output";
 		Transfer5 t5 = new Transfer5();
 		//t5.getInputData(hdfs, localFilePath, inputPath);
