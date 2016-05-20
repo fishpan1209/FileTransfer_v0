@@ -119,7 +119,7 @@ public class Transfer5 {
 	}
 	
 	public void sendFile(Path hdfsSrc, Path hdfsDst, FileSystem hdfs) throws IOException {
-		System.out.println("copy file content from "+hdfsSrc.toString()+" to "+hdfsDst.toString());
+		// System.out.println("copy file content from "+hdfsSrc.toString()+" to "+hdfsDst.toString());
 		hdfsDst = Path.mergePaths(hdfsDst, new Path("/"+hdfsSrc.getName()));
 		InputStream in = null;
 		OutputStream out = null;
