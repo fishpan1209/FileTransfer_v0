@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+
 public class TransferEvent {
 	
 	public TransferEvent(){
 		
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		if(args.length<2){
 			throw  new IllegalArgumentException("Not enough args");
 		}
@@ -59,6 +62,37 @@ public class TransferEvent {
 		t4.transferDir(srcDir, destDir4);
 		endTime = System.currentTimeMillis();
         System.out.println("Total Time of transfer4 is  " + (endTime - startTime)+"ms");
+        
+     // transfer5
+        FileSystem hdfs = FileSystem.get(new Configuration());
+        String hdfsSrc = "/Input/corpus";
+		String hdfsDst = "/Output/output5";
+		Transfer5 t5 = new Transfer5();
+		//t5.getInputData(hdfs, localFilePath, inputPath);
+		startTime = System.currentTimeMillis();
+		t5.transfer(hdfs, hdfsSrc, hdfsDst);
+		endTime = System.currentTimeMillis();
+        System.out.println("Total Time of Transfer5 is  " + (endTime - startTime)+"ms");
+        
+     // transfer6
+        
+		String hdfsDst6 = "/Output/output6";
+		Transfer6 t6 = new Transfer6();
+		//t5.getInputData(hdfs, localFilePath, inputPath);
+		startTime = System.currentTimeMillis();
+		t5.transfer(hdfs, hdfsSrc, hdfsDst6);
+		endTime = System.currentTimeMillis();
+        System.out.println("Total Time of Transfer6 is  " + (endTime - startTime)+"ms");
+        
+        
+        // transfer7
+        String destPath7 = args[1]+"/output7";
+		File destDir7 = new File(destPath7);
+        Transfer7 t7 = new Transfer7();
+		startTime = System.currentTimeMillis();
+		t7.transferDir(srcDir, destDir7);
+		endTime = System.currentTimeMillis();
+        System.out.println("Total Time of transfer7 is  " + (endTime - startTime)+"ms");
         
 
 	}
