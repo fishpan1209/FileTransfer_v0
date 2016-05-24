@@ -111,6 +111,7 @@ public class Transfer5 {
 						String header = processer.getHeader();
 						*/
 						// System.out.println(file.getPath().toString()+" is file");
+						
 						sendFile(file.getPath(), destDir,hdfs);
 					}
 				}
@@ -133,7 +134,7 @@ public class Transfer5 {
 			throw e;
 		}
 	}
-
+/*
 	public static void main(String[] args) throws Exception {
 		FileSystem hdfs = FileSystem.get(new Configuration());
 		// TODO Auto-generated method stub
@@ -149,5 +150,5 @@ public class Transfer5 {
         System.out.println("Total Time of Transfer5 is  " + (endTime - startTime)+"ms");
 
 	}
-
+*/
 }

@@ -103,7 +103,7 @@ public class Transfer7 {
 			e.getMessage();
 		}
 	}
-
+/*
 	public static void main(String[] args) {
 		String srcPath = "/users/aojing/documents/workspace-mars/FileTransfer_v0/Input/test";
 		String destPath = "/users/aojing/documents/workspace-mars/FileTransfer_v0/Output/";
@@ -115,5 +115,5 @@ public class Transfer7 {
 		long endTime = System.currentTimeMillis();
 		System.out.println("Total Time of transfer7 is  " + (endTime - startTime) + "ms");
 	}
-
+*/
 }

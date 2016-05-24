@@ -146,7 +146,7 @@ public class Transfer6 {
 			throw e;
 		}
 	}
-
+/*
 	public static void main(String[] args) throws Exception {
 		FileSystem hdfs = FileSystem.get(new Configuration());
 		// TODO Auto-generated method stub
@@ -162,6 +162,6 @@ public class Transfer6 {
         System.out.println("Total Time of Transfer5 is  " + (endTime - startTime)+"ms");
 
 	}
-
+*/
 }
 

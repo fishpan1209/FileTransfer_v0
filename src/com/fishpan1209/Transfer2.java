@@ -84,6 +84,7 @@ public class Transfer2 {
 				while ((length = in.read(buffer)) > 0) {
 					out.write(buffer, 0, length);
 				}
+				
 				in.close();
 				out.close();
 				//System.out.println("End of file reached.." + "\n");
