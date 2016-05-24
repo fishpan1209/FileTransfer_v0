@@ -42,6 +42,9 @@ public class Transfer2 {
 				// if destination directory not exists, create it
 				if (!destDir.exists()) {
 					destDir.mkdir();
+				}else{
+					destDir.delete();
+					destDir.mkdir();
 				}
 
 				// list all the directory contents
