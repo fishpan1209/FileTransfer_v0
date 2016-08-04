@@ -35,6 +35,7 @@ public class Transfer7 {
 					destDir.delete();
 					destDir.mkdir();
 				}
+				
 
 				// list all the directory contents
 				String files[] = srcDir.list();
